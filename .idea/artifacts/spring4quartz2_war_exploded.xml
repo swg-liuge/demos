@@ -6,6 +6,9 @@
         <element id="directory" name="classes">
           <element id="module-output" name="spring4quartz2" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: error:spring-webmvc:unknown" />
+        </element>
       </element>
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/spring4quartz2/target/spring4-quartz2/META-INF/MANIFEST.MF" />
