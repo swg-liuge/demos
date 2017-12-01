@@ -1,8 +1,8 @@
 package com.song.schedule;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class FirstScheduleBean {
 
     public void print(){

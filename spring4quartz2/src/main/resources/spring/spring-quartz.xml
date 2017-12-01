@@ -5,28 +5,57 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="com.song.schedule"/>
+
+    <bean id="complexJob" class="com.song.schedule.ComplexJob"/>
+    <bean id="complexJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.song.schedule.ComplexScheduledJob"/>
+        <property name="durability" value="true"/>
+    </bean>
+
+   <!--
+        1.先要有需要执行的job 也就是要定时执行的对象
+        2.配置jobDetail  有两种形式
+        3.配置一个Trigger触发器 设置定时周期关联jobDetail  也有两种
+        4.配置调度器，关联jobDetail和trigger
+   -->
+
     <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="firstScheduleBean"/>
         <property name="targetMethod" value="print"/>
     </bean>
 
     <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!--<property name="jobDetail" ref="jobDetail"/>-->
         <property name="jobDetail" ref="jobDetail"/>
         <property name="cronExpression" value="0/5 * * * * ?"/>
     </bean>
+
+    <bean id="simpleTrigger"  class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="complexJobDetail" />
+        <property name="startDelay" value="1000" />
+        <property name="repeatInterval" value="2000" />
+        <property name="repeatCount" value="5" />
+    </bean>
+
+
     <bean  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="jobDetails">
             <list>
-                <ref bean="jobDetail" />
+                <!--<ref bean="jobDetail" />-->
+                <ref bean="complexJobDetail"/>
             </list>
         </property>
 
         <property name="triggers">
             <list>
-                <ref bean="cronTrigger" />
+                <!--<ref bean="cronTrigger" />-->
+                <ref bean="simpleTrigger"/>
             </list>
+
         </property>
 
+        <!--实现quartz的job无法注入spring对象-->
+        <property name="jobFactory" ref="jobFactoryHelper"/>
         <property name="configLocation" value="classpath:quartz.properties" />
     </bean>
 
