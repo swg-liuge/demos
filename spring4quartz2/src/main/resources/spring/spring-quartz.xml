@@ -39,6 +39,7 @@
 
 
     <bean  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="dataSource" ref="datasource"/>
         <property name="jobDetails">
             <list>
                 <!--<ref bean="jobDetail" />-->
@@ -58,5 +59,6 @@
         <property name="jobFactory" ref="jobFactoryHelper"/>
         <property name="configLocation" value="classpath:quartz.properties" />
     </bean>
+
 
 </beans>
