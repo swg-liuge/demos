@@ -28,6 +28,8 @@
         <!--<property name="jobDetail" ref="jobDetail"/>-->
         <property name="jobDetail" ref="jobDetail"/>
         <property name="cronExpression" value="0/5 * * * * ?"/>
+        <!--<property name="group" value="song"/>-->
+        <!--<property name="description" value="test song"/>-->
     </bean>
 
     <bean id="simpleTrigger"  class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
@@ -42,14 +44,14 @@
         <property name="dataSource" ref="datasource"/>
         <property name="jobDetails">
             <list>
-                <!--<ref bean="jobDetail" />-->
+                <ref bean="jobDetail" />
                 <ref bean="complexJobDetail"/>
             </list>
         </property>
 
         <property name="triggers">
             <list>
-                <!--<ref bean="cronTrigger" />-->
+                <ref bean="cronTrigger" />
                 <ref bean="simpleTrigger"/>
             </list>
 
